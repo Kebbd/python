@@ -30,17 +30,11 @@ kredyt = int(input("Podaj wysokosc kredytu: "))
 opr = int(input("Podaj oprocentowanie w %: ")) #oprocentowanie
 rata = int(input("Podaj wysokosc raty: "))
 
-odsetki = kredyt*(opr/100)*31/365
-
 
 for i in inflacja:
     kredyt1 = kredyt
     
-    kredyt = kredyt*(1+(i/100)) #zmiania wartosci kredytu przez inflacje
-    if kredyt<0:
-        kredyt*=-1
-
-    kredyt = kredyt - rata + odsetki
+    kredyt = (1 + (i + opr)/kredyt/10)*kredyt - rata
     kredyt = round(kredyt, 2)
     
     if kredyt > 0:
