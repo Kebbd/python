@@ -32,10 +32,8 @@ rata = int(input("Podaj wysokosc raty: "))
 
 odsetki = kredyt*(opr/100)*31/365
 
-m=0 #licznik miesiecy
 
 for i in inflacja:
-    m+=1
     kredyt1 = kredyt
     
     kredyt = kredyt*(1+(i/100)) #zmiania wartosci kredytu przez inflacje
@@ -46,7 +44,7 @@ for i in inflacja:
     kredyt = round(kredyt, 2)
     
     if kredyt > 0:
-        print("Wysokosc kredytu w miesiacu",m, "to:", kredyt, end=",")
+        print("Twoja pozostala kwota kredytu to", kredyt, end=",")
         print(" to",round((kredyt-kredyt1)*-1, 2), "mniej niz w poprzednim miesiacu.")
     elif kredyt < 0:
         print("Kredyt został spłacony")
