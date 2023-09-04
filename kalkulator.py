@@ -32,14 +32,14 @@ rata = int(input("Podaj wysokosc raty: "))
 
 
 for i in inflacja:
-    kredyt1 = kredyt
+    kredyt1 = kredyt #wartosc poprzedniego cyklu/misiaca
     
     kredyt = (1 + (i + opr)/kredyt/10)*kredyt - rata
     kredyt = round(kredyt, 2)
     
     if kredyt > 0:
         print("Twoja pozostala kwota kredytu to", kredyt, end=",")
-        print(" to",round((kredyt-kredyt1)*-1, 2), "mniej niz w poprzednim miesiacu.")
+        print(" to",round((kredyt1-kredyt), 2), "mniej niz w poprzednim miesiacu.")
     elif kredyt < 0:
         print("Kredyt został spłacony")
         break
