@@ -12,7 +12,6 @@ for i in range(ilosc):
     waga = float(input("Podaj wage elementu(1-10kg): "))
 
     if waga > 10 or waga < 1:
-        print("Maksymalna waga to 10kg")
         laczna_waga += waga
         break
 
