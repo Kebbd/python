@@ -8,7 +8,10 @@ laczna_waga = 0
 paczki = 0
 
 for i in range(ilosc):
-    waga = float(input("Podaj wage elementu: "))
+    waga = float(input("Podaj wage elementu(1-10kg): "))
+
+    if waga > 10 or waga < 1:
+        break
 
 # waga paczek
 
