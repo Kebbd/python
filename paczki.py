@@ -28,14 +28,8 @@ if laczna_waga > 0:
     puste_kg.append(20 - laczna_waga)
 
 # puste_kg
-
-rekord = 0
-licznik = 0
-for wartosc in puste_kg:
-    licznik += 1
-    if wartosc > rekord:
-        rekord = wartosc
-
+licznik = puste_kg.index(max(puste_kg))
+licznik += 1
 
 print(f"Wyslano {len(puste_kg)} paczek, o lacznej wadze {paczki}. Suma pustych kg to {sum(puste_kg)}")
 print(f"Najwiecej pustych kg miala paczka {licznik}, bylo to {max(puste_kg)}kg")
