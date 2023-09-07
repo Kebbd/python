@@ -8,7 +8,7 @@ laczna_waga = 0
 paczki = 0
 
 for i in range(ilosc):
-    waga = float(input("Podaj wage elementu(1-10kg): "))
+    waga = float(input("Podaj wage elementu: "))
 
     if waga > 10 or waga < 1:
         break
@@ -29,11 +29,11 @@ if laczna_waga > 0:
 
 # puste_kg
 
-rekord = None
+rekord = 0
 licznik = 0
 for wartosc in puste_kg:
     licznik += 1
-    if rekord is None or wartosc > rekord:
+    if wartosc > rekord:
         rekord = wartosc
 
 
