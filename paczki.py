@@ -12,8 +12,18 @@ for i in range(ilosc):
     waga = float(input("Podaj wage elementu(1-10kg): "))
 
     if waga > 10 or waga < 1:
-        laczna_waga += waga
-        break
+        if laczna_waga + waga > 20:
+            puste_kg.append(20 - laczna_waga)
+            puste_kg.append(20 - waga)
+            paczki += laczna_waga
+            paczki += waga
+            laczna_waga = 0
+            break
+        else:
+            laczna_waga += waga
+            break
+
+
 
 # waga paczek
 
@@ -25,7 +35,7 @@ for i in range(ilosc):
         puste_kg.append(20 - laczna_waga)
         laczna_waga = 0 + waga
 
-if laczna_waga > 0:
+if laczna_waga > 0 < 20:
     paczki += laczna_waga
     puste_kg.append(20 - laczna_waga)
 
