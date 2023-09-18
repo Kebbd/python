@@ -1,6 +1,5 @@
 balance = 0
-warehouse = []
-prices = []
+warehouse = {}
 history = []
 
 while True:
@@ -20,13 +19,15 @@ while True:
         print("1. Wplata pieniedzy")
         print("2. Wyplata pieniedzy")
         print("3. Powrot do menu")
-        number1 = input()
-        
-        if number1 == "1":
+        number_in = input()
+        if not number_in:
+            print("Blad")
+            continue
+        if number_in == "1":
             change_balance = int(input("Ile chcesz wplacic?: "))
             balance += change_balance
             history.append(f"Do konta dodano {change_balance}")
-        elif number1 == "2":
+        elif number_in == "2":
             change_balance = int(input("Ile chcesz wyplacic?: "))
             
             if balance - change_balance < 0:
@@ -34,8 +35,7 @@ while True:
             else:
                 balance -= change_balance
                 history.append(f"Z konta zabrano {change_balance}")
-        
-        elif number1 == "3":
+        elif number_in == "3":
             continue
         else:
             print("Niewlasciwy numer!")
@@ -43,77 +43,94 @@ while True:
             
     
     elif number == "2": # SPRZEDARZ
-        item = input("Co sprzedajesz?: ")
-        price = int(input("Za ile?: "))
-        amount = int(input("Ile sztuk?: "))
-
-        if warehouse.count(item) > 0:
-            for i in range(amount):
-                warehouse.remove(item)
-                prices.remove(warehouse.index(item))
-                balance += price
-            history.append(f"Sprzedano {item} za {price} w ilosci {amount}")
+        item = input("Podaj nazwe produktu: ")
+        if item in warehouse:
+            price = float(input("Podaj cenę produktu: "))
+            amount = int(input("Podaj liczbe sztuk: "))
+            if warehouse[item]["amount"] > amount:
+                warehouse[item]["amount"] -= amount
+                balance += price*amount
+                history.append(f"Sprzedaz: {item} sztuk {amount} za {price}")
+            elif warehouse[item]["amount"] == amount:
+                del warehouse[item]
+                balance += price*amount
+                history.append(f"Sprzedaz: {item} sztuk {amount} za {price}")
+            else:
+                print("Za malo w magazynie")
         else:
             print("Brak w magazynie")
 
     
     elif number == "3": # ZAKUP
-        item = input("Co kupujesz?: ")
-        price = int(input("Za ile?: "))
-        amount = int(input("Ile sztuk?: "))
+        item = input("Podaj nazwe produktu?: ")
+        price = float(input("Podaj cene produktu?: "))
+        amount = int(input("Podaj liczbe sztuk: "))
         
-        if balance - price < 0:
-            print("Za malo srodkow na koncie!")
-        else:
-            for i in range(amount):
-                warehouse.append(item)
-                prices.append(price)
-                balance -= price
-        history.append(f"Kupiono {item} za {price} w ilosci {amount}")
+        if balance - (price*amount) >= 0:
+            if item in warehouse:
+                warehouse[item]["amount"] += amount
+            else:
+                warehouse[item] = {"price": price, "amount": amount}
+            balance -= price*amount
+            history.append(f"Kupiono {item} za {price} w ilosci {amount}")
 
     elif number == "4": # KONTO
         print(f"Stan konta to {balance}")
 
         
     elif number == "5": # LISTA
-        item_list = zip(warehouse, prices)
-        print(tuple(item_list))
+        if warehouse:
+            for item, data in warehouse.items():
+                price = data["price"]
+                amount = data["amount"]
+                print(f"{item}: cena: {price} zł, ilość: {amount} sztuk")
+        else:
+            print("Magazyn jest pusty")
 
     elif number == "6": # MAGAZYN
-        check = input("Czego szukasz?: ")
-        if warehouse.count(check) > 0:
-            print(f"W magazynie jest {warehouse.count(check)} sztuk.")
+        item = input("Czego szukasz?: ")
+        if item in warehouse:
+            amount_in = warehouse[item]["amount"]
+            print(f"W magazynie jest {amount_in} sztuk.")
         else:
             print("Brak w magazynie")
 
 
     elif number == "7": # PRZEGLAD
         print(f"Przeprowadzono {len(history)} operacji. Wybierz zakres.")
-        od = input("Od: ")
+        start = input("Od: ")
+        end = input("Do: ")
         
-        if od == "":
-            od = None
+        if not start:
+            start = 0
         else:
-            od = int(od)
-        do = input("Do: ")
-        
-        if do == "":
-            do = None
-        else:
-            do = int(do)
-        
-        if od == None and do != None:
-            print(history[od:do])
-        elif od != None and do != None:
-            print(history[od-1:do])
-        elif od != None and do == None:
-            print(history[od-1:do])
-        else:
-            print(history[od:do])
+            try:
+                start = int(start)
+            except ValueError:
+                print("Bledna wartosc")
+                continue
 
+        if not end:
+            end = len(history)
+        else:
+            try:
+                end = int(end)
+            except ValueError:
+                print("Bledna wartosc")
+                continue
 
+        if start < 0 or end > len(history) or start >= end:
+            print("Błędny zakres operacji.")
+        elif start > 0:
+            for i in range(start-1, end):
+                print(history[i])
+        else:
+            for i in range(start, end):
+                print(history[i])
+
+                
     elif number == "8": # KONIEC
-        exit()
+        break
     
     
     else: ######
