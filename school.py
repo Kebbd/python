@@ -1,11 +1,11 @@
-class Student():
+class Student:
     def __init__(self, first_name, last_name, class_name):
         self.first_name = first_name
         self.last_name = last_name
         self.class_name = class_name
 
 
-class Teacher():
+class Teacher:
     def __init__(self, first_name, last_name, subject, class_names=None):
         self.first_name = first_name
         self.last_name = last_name
@@ -13,14 +13,14 @@ class Teacher():
         self.class_names = []
 
 
-class Tutor():
+class Tutor:
     def __init__(self, first_name, last_name, class_name):
         self.first_name = first_name
         self.last_name = last_name
         self.class_name = class_name
 
 
-class School():
+class School:
     def __init__(self):
         self.students = []
         self.teachers = []
@@ -82,7 +82,10 @@ class School():
         student_last_name = input("Podaj nazwisko ucznia: ")
         find_student = False
         for student in self.students:
-            if(student.first_name == student_first_name and student.last_name == student_last_name):
+            if (
+                student.first_name == student_first_name
+                and student.last_name == student_last_name
+            ):
                 find_student = True
                 print("Zajecia ucznia to: ")
                 for teacher in self.teachers:
@@ -96,7 +99,10 @@ class School():
         teacher_last_name = input("Podaj nazwisko nauczyciela: ")
         find_teacher = False
         for teacher in self.teachers:
-            if(teacher.first_name == teacher_first_name and teacher.last_name == teacher_last_name):
+            if (
+                teacher.first_name == teacher_first_name
+                and teacher.last_name == teacher_last_name
+            ):
                 find_teacher = True
                 for class_name in teacher.class_names:
                     print(class_name)
@@ -108,7 +114,10 @@ class School():
         tutor_last_name = input("Podaj nazwisko wychowawcy: ")
         find_tutor = False
         for tutor in self.tutors:
-            if(tutor.first_name == tutor_first_name and tutor.last_name == tutor_last_name):
+            if (
+                tutor.first_name == tutor_first_name
+                and tutor.last_name == tutor_last_name
+            ):
                 find_tutor = True
                 find_student = False
                 for student in self.students:
@@ -120,6 +129,7 @@ class School():
         if not find_tutor:
             print("Nie ma takiego wychowacy.")
 
+
 school = School()
 
 while True:
@@ -128,7 +138,7 @@ while True:
     print("2.Zarzadzaj")
     print("3.Koniec")
     choice = input("Wybierz numer:\n")
-    
+
     if choice == "1":
         while True:
             print("Panel tworzenia urzytkownikow:")
