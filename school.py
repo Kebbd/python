@@ -60,45 +60,70 @@ class School():
     def show_class(self):
         search_class = input("Podaj klase: ")
         if search_class in self.classes:
+            find_tutor = False
+            find_student = False
             for tutor in self.tutors:
                 if tutor.class_name == search_class:
+                    find_tutor = True
                     print(f"Wychowawca: {tutor}")
+            if not find_tutor:
+                print("Klasa nie ma wychowawcy")
             for student in self.students:
                 if student.class_name == search_class:
+                    find_student = True
                     print(f"Uczen: {student}")
+            if not find_student:
+                print("Klasa nie ma uczniow.")
         else:
             print("Nie ma takiej klasy.")
 
     def show_student(self):
         student_first_name = input("Podaj Imie ucznia: ")
         student_last_name = input("Podaj nazwisko ucznia: ")
+        find_student = False
         for student in self.students:
             if(student.first_name == student_first_name and student.last_name == student_last_name):
+                find_student = True
                 print("Zajecia ucznia to: ")
                 for teacher in self.teachers:
                     if student.class_name in teacher.class_names:
                         print(f"Przedmiot: {teacher.subject}, Nauczyciel: {teacher}")
+        if not find_student:
+            print("Nie ma takiego ucznia.")
 
     def show_teacher(self):
         teacher_first_name = input("Podaj Imie nauczyciela: ")
         teacher_last_name = input("Podaj nazwisko nauczyciela: ")
+        find_teacher = False
         for teacher in self.teachers:
             if(teacher.first_name == teacher_first_name and teacher.last_name == teacher_last_name):
+                find_teacher = True
                 for class_name in teacher.class_names:
                     print(class_name)
+        if not find_teacher:
+            print("Nie ma takiego nauczyciela.")
 
     def show_tutor(self):
         tutor_first_name = input("Podaj Imie wychowawcy: ")
         tutor_last_name = input("Podaj nazwisko wychowawcy: ")
+        find_tutor = False
         for tutor in self.tutors:
             if(tutor.first_name == tutor_first_name and tutor.last_name == tutor_last_name):
+                find_tutor = True
+                find_student = False
                 for student in self.students:
                     if student.class_name == tutor.class_name:
+                        find_student = True
                         print(f"Uczen: {student}")
+                if not find_student:
+                    print("Wychowawca nie ma uczniow.")
+        if not find_tutor:
+            print("Nie ma takiego wychowacy.")
 
 school = School()
 
 while True:
+    print("MENU")
     print("1.Utworz")
     print("2.Zarzadzaj")
     print("3.Koniec")
@@ -106,6 +131,7 @@ while True:
     
     if choice == "1":
         while True:
+            print("Panel tworzenia urzytkownikow:")
             print("1.Uczen")
             print("2.Nauczyciel")
             print("3.Wychowawca")
@@ -124,6 +150,7 @@ while True:
 
     elif choice == "2":
         while True:
+            print("Panel zarzadzania:")
             print("1.Klasa")
             print("2.Uczen")
             print("3.Nauczyciel")
