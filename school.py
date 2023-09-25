@@ -65,13 +65,13 @@ class School:
             for tutor in self.tutors:
                 if tutor.class_name == search_class:
                     find_tutor = True
-                    print(f"Wychowawca: {tutor}")
+                    print(f"Wychowawca: {tutor.first_name} {tutor.last_name}")
             if not find_tutor:
                 print("Klasa nie ma wychowawcy")
             for student in self.students:
                 if student.class_name == search_class:
                     find_student = True
-                    print(f"Uczen: {student}")
+                    print(f"Uczen: {student.first_name} {student.last_name}")
             if not find_student:
                 print("Klasa nie ma uczniow.")
         else:
@@ -82,15 +82,16 @@ class School:
         student_last_name = input("Podaj nazwisko ucznia: ")
         find_student = False
         for student in self.students:
-            if (
-                student.first_name == student_first_name
-                and student.last_name == student_last_name
-            ):
+            if (student.first_name == student_first_name and student.last_name == student_last_name):
                 find_student = True
                 print("Zajecia ucznia to: ")
+                find_subject = False
                 for teacher in self.teachers:
                     if student.class_name in teacher.class_names:
-                        print(f"Przedmiot: {teacher.subject}, Nauczyciel: {teacher}")
+                        print(f"Przedmiot: {teacher.subject}, Nauczyciel: {teacher.first_name} {teacher.last_name}")
+                        find_subject = True
+                if not find_subject:
+                    print("Uczen nie ma przypisanych zajec.")
         if not find_student:
             print("Nie ma takiego ucznia.")
 
@@ -99,10 +100,7 @@ class School:
         teacher_last_name = input("Podaj nazwisko nauczyciela: ")
         find_teacher = False
         for teacher in self.teachers:
-            if (
-                teacher.first_name == teacher_first_name
-                and teacher.last_name == teacher_last_name
-            ):
+            if (teacher.first_name == teacher_first_name and teacher.last_name == teacher_last_name):
                 find_teacher = True
                 for class_name in teacher.class_names:
                     print(class_name)
