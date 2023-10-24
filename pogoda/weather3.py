@@ -27,7 +27,7 @@ class WeatherForecast:
             yield date, forecast
 
     def __iter__(self):
-        return self.data
+        return iter(self.data)
 
     def get_data(self, date):
         if date in self.data:
@@ -56,5 +56,6 @@ if __name__ == "__main__":
     result = weather_forecast.get_data(searched_date)
     print(f"Prognoza pogody na dzien {searched_date} to {result}")
 
-    for date, forecast in weather_forecast.items():
+    for date in weather_forecast:
+        forecast = weather_forecast[date]
         print(f"{date}: {forecast}")
