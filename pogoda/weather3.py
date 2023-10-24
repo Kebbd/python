@@ -6,24 +6,22 @@ import datetime
 
 class WeatherForecast:
     def __init__(self):
-        self.latitude = 51.1079
-        self.longitude = 17.0385
         self.data = {}
 
         if os.path.exists("weather.json"):
             with open("weather.json") as file:
                 self.data = json.load(file)
 
-    def __setitem__(self, set_date, forecast):
-        self.data[set_date] = forecast
+    def __setitem__(self, date, forecast):
+        self.data[date] = forecast
         with open("weather.json", "w") as file:
             json.dump(self.data, file, indent=2)
 
     def __getitem__(self, date):
-            if date in self.data:
-                return self.data[date]
-            else:
-                return self.get_data(date)
+        if date in self.data:
+            return self.data[date]
+        else:
+            return self.get_data(date)
 
     def items(self):
         for date, forecast in self.data.items():
@@ -33,7 +31,9 @@ class WeatherForecast:
         return iter(self.data)
 
     def get_data(self, date):
-        url = f"https://api.open-meteo.com/v1/forecast?latitude={self.latitude}&longitude={self.longitude}&hourly=rain&daily=rain_sum&timezone=Europe%2FLondon&start_date={searched_date}&end_date={searched_date}"
+        latitude = 51.1079
+        longitude = 17.0385
+        url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&hourly=rain&daily=rain_sum&timezone=Europe%2FLondon&start_date={date}&end_date={date}"
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
