@@ -54,9 +54,7 @@ if __name__ == "__main__":
 
     print("Pogoda dla Wroclawia")
     result = weather_forecast.get_data(searched_date)
-    weather_forecast[searched_date] = result
-    forecast = weather_forecast[searched_date]
-    print(f"Prognoza pogody na dzien {searched_date} to {forecast}")
+    print(f"Prognoza pogody na dzien {searched_date} to {result}")
 
     for date, forecast in weather_forecast.items():
         print(f"{date}: {forecast}")
