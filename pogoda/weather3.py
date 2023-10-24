@@ -3,6 +3,7 @@ import json
 import requests
 import datetime
 
+
 class WeatherForecast:
     def __init__(self):
         self.latitude = 51.1079
@@ -10,12 +11,12 @@ class WeatherForecast:
         self.data = {}
 
         if os.path.exists("weather.json"):
-            with open ("weather.json") as file:
+            with open("weather.json") as file:
                 self.data = json.load(file)
 
     def __setitem__(self, set_date, forecast):
         self.data[set_date] = forecast
-        with open('weather.json', 'w') as file:
+        with open("weather.json", "w") as file:
             json.dump(self.data, file, indent=2)
 
     def __getitem__(self, get_date):
@@ -27,7 +28,6 @@ class WeatherForecast:
 
     def __iter__(self):
         return self.data
-
 
     def get_data(self, date):
         if date in self.data:
@@ -52,7 +52,6 @@ if __name__ == "__main__":
         tomorrow = today + datetime.timedelta(days=1)
         searched_date = tomorrow.strftime("%Y-%m-%d")
 
-    print(weather_forecast)
     print("Pogoda dla Wroclawia")
     result = weather_forecast.get_data(searched_date)
     weather_forecast[searched_date] = result
