@@ -19,8 +19,11 @@ class WeatherForecast:
         with open("weather.json", "w") as file:
             json.dump(self.data, file, indent=2)
 
-    def __getitem__(self, get_date):
-        return self.data.get(get_date, "Nie wiem")
+    def __getitem__(self, date):
+            if date in self.data:
+                return self.data[date]
+            else:
+                return self.get_data(date)
 
     def items(self):
         for date, forecast in self.data.items():
@@ -30,8 +33,6 @@ class WeatherForecast:
         return iter(self.data)
 
     def get_data(self, date):
-        if date in self.data:
-            return self.data[date]
         url = f"https://api.open-meteo.com/v1/forecast?latitude={self.latitude}&longitude={self.longitude}&hourly=rain&daily=rain_sum&timezone=Europe%2FLondon&start_date={searched_date}&end_date={searched_date}"
         response = requests.get(url)
         if response.status_code == 200:
@@ -52,8 +53,8 @@ if __name__ == "__main__":
         tomorrow = today + datetime.timedelta(days=1)
         searched_date = tomorrow.strftime("%Y-%m-%d")
 
+    result = weather_forecast[searched_date]
     print("Pogoda dla Wroclawia")
-    result = weather_forecast.get_data(searched_date)
     print(f"Prognoza pogody na dzien {searched_date} to {result}")
 
     for date in weather_forecast:
