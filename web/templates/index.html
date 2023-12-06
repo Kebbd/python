@@ -18,10 +18,10 @@
             <div class="card">
                 <div class="card-body">
                     <h2 class="card-title">Current Status</h2>
-                    <p class="card-text">Warehouse Stock:</p>
+                    <p class="card-text">Warehouse Stock: {{ total_quantity }}</p>
                     <ul>
-                        {% for item, data in warehouse.items() %}
-                            <li>{{ item }} - Price: {{ data['price'] }}, Quantity: {{ data['quantity'] }}</li>
+                        {% for item, data in warehouse.items() if data['quantity'] > 0 %}
+                            <li>{{ item }} - Quantity: {{ data['quantity'] }}</li>
                         {% endfor %}
                     </ul>
                     <p class="card-text">Balance: {{ balance }}</p>
@@ -58,6 +58,10 @@
                     <label for="quantity_sale" class="form-label">Quantity</label>
                     <input type="number" class="form-control" id="quantity_sale" name="quantity" min="1" step="1" required>
                 </div>
+                <div class="mb-3">
+                    <label for="price_sale" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="price_sale" name="price" min="0" step="0.01" required>
+                </div>
                 <button type="submit" class="btn btn-success">Sale</button>
             </form>
 
@@ -76,9 +80,9 @@
     <div class="mt-5">
         <h2>History</h2>
         <p>
-            <a href="/history/">Full History</a> |
-            <a href="/history/1/10/">History from 1 to 10</a> |
-            <a href="/history/11/20/">History from 11 to 20</a>
+            <a href="{{ url_for('history') }}">Full History</a> |
+            <a href="{{ url_for('history', start=1, end=10) }}">History from 1 to 10</a> |
+            <a href="{{ url_for('history', start=11, end=20) }}">History from 11 to 20</a>
         </p>
     </div>
 </div>

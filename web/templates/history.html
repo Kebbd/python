@@ -1,5 +1,3 @@
-<!-- history.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,16 +18,20 @@
             <div class="card">
                 <div class="card-body">
                     <h2 class="card-title">History</h2>
-                    <ul class="list-group">
-                        {% for entry in history %}
-                            <li class="list-group-item">{{ entry }}</li>
-                        {% endfor %}
-                    </ul>
+                    {% if error %}
+                        <p class="text-danger">{{ error }}</p>
+                    {% else %}
+                        <ul class="list-group">
+                            {% for entry in history %}
+                                <li class="list-group-item">{{ entry }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
-
+    
     <div class="mt-5">
         <a href="/">Back to Home</a>
     </div>

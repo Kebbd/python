@@ -55,6 +55,9 @@ class Manager:
                 for line in file:
                     self.history.append(line.strip())
 
+    def calculate_total_quantity(self):
+        return sum(data['quantity'] for data in self.warehouse.values())
+
 manager = Manager()
 manager.load_balance()
 manager.load_warehouse()
@@ -62,11 +65,14 @@ manager.load_history()
 
 @app.route('/')
 def index():
-    return render_template('index.html', balance=manager.balance, warehouse=manager.warehouse)
+    total_quantity = manager.calculate_total_quantity()
+    return render_template('index.html', balance=manager.balance, total_quantity=total_quantity, warehouse=manager.warehouse)
+
+
 
 @app.route('/purchase', methods=['POST'])
 def purchase():
-    item = request.form['product_name']
+    item = request.form['product_name']  # Updated field name to match HTML form
     price = float(request.form['price'])
     quantity = int(request.form['quantity'])
 
@@ -84,8 +90,10 @@ def purchase():
 
 @app.route('/sale', methods=['POST'])
 def sale():
-    item = request.form['product_name']
+    item = request.form['product_name']  # Updated field name to match HTML form
     quantity = int(request.form['quantity'])
+    price = float(request.form['price'])
+
 
     if item and quantity > 0 and item in manager.warehouse and manager.warehouse[item]['quantity'] >= quantity:
         manager.warehouse[item]['quantity'] -= quantity
@@ -98,7 +106,7 @@ def sale():
 
 @app.route('/balance-change', methods=['POST'])
 def balance_change():
-    change_value = float(request.form['change_value'])
+    change_value = float(request.form['change_value'])  # Updated field name to match HTML form
 
     if change_value != 0:
         manager.balance += change_value
@@ -108,21 +116,19 @@ def balance_change():
     return redirect(url_for('index'))
 
 @app.route('/historia/')
-@app.route('/historia/<start>/<end>')
+@app.route('/historia/<int:start>/<int:end>')
 def history(start=None, end=None):
     if start is None or end is None:
         return render_template('history.html', history=manager.history)
     else:
         try:
-            start = int(start)
-            end = int(end)
             if 1 <= start <= len(manager.history) and 1 <= end <= len(manager.history) and start <= end:
                 return render_template('history.html', history=manager.history[start - 1:end])
             else:
                 available_range = f"Available range: 1-{len(manager.history)}"
-                return f"Invalid range. {available_range}"
+                return render_template('history.html', error=f"Invalid range. {available_range}")
         except ValueError:
-            return "Invalid range. Start and end must be integers."
-
+            return render_template('history.html', error="Invalid range. Please provide valid start and end values.")
+            
 if __name__ == '__main__':
     app.run(debug=True)
