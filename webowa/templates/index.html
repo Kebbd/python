@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Training Volume Monitor</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Training Volume Monitor</h1>
+        <form action="{{ url_for('add_training') }}" method="post" id="trainingForm">
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="text" name="date" class="form-control" required>
+            </div>
+            <div id="exercisesContainer">
+                <div class="exercise-group">
+                    <div class="form-group">
+                        <label for="exercise_name">Exercise Name:</label>
+                        <input type="text" name="exercise_name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="repetitions">Repetitions:</label>
+                        <input type="number" name="repetitions" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sets">Sets:</label>
+                        <input type="number" name="sets" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="load">Load:</label>
+                        <input type="number" name="load" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-success" onclick="addExercise()">Add Exercise</button>
+            <button type="submit" class="btn btn-primary">Add Training</button>
+        </form>
+        <hr>
+        <h2>Training List</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Exercise Name</th>
+                    <th>Repetitions</th>
+                    <th>Sets</th>
+                    <th>Load</th>
+                    <th>Volume</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for training in trainings %}
+                    {% for exercise in training.exercises %}
+                        <tr>
+                            <td>{{ training.date }}</td>
+                            <td>{{ exercise.name }}</td>
+                            <td>{{ exercise.repetitions }}</td>
+                            <td>{{ exercise.sets }}</td>
+                            <td>{{ exercise.load }}</td>
+                            <td>{{ exercise.volume }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('plot') }}" class="btn btn-info">Show Volume Chart</a>
+    </div>
+
+    <script>
+        function addExercise() {
+            const exercisesContainer = document.getElementById('exercisesContainer');
+            const exerciseGroup = document.querySelector('.exercise-group').cloneNode(true);
+
+            // Clear input values in the cloned group
+            exerciseGroup.querySelectorAll('input').forEach(input => input.value = '');
+
+            exercisesContainer.appendChild(exerciseGroup);
+        }
+    </script>
+</body>
+</html>
